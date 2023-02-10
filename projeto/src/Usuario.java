@@ -1,14 +1,16 @@
+import java.util.Objects;
+
 public class Usuario {
     private String nome, senha, email;
 
-    public Usuario(String nome, String senha, String email) {
+    public Usuario(String nome, String email, String senha) {
         this.nome = nome;
         this.senha = senha;
         this.email = email;
     }
 
     public boolean autenticar(String email, String senha){
-        return false;
+        return email.equals(getEmail()) && senha.equals(getSenha());
     }
 
     public String getNome() {
