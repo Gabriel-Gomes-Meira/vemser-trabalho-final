@@ -4,6 +4,10 @@ public class CompradorController implements Controller {
 
     ArrayList <Comprador> compradores;
 
+    public CompradorController() {
+        this.compradores = new ArrayList<>();
+    }
+
     public ArrayList<Comprador> getCompradores() {
         return compradores;
     }

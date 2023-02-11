@@ -9,7 +9,7 @@ public class LeilaoController implements Controller {
     }
 
 
-    public ArrayList<Leilao> getUsuarios() {
+    public ArrayList<Leilao> getLeiloes() {
         return leiloes;
     }
 
