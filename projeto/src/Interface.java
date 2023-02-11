@@ -1,18 +1,31 @@
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Interface {
+public class Interface implements Validation{
 
     public static int login() {
-        System.out.println("\n" +
-                "###################################\n" +
-                "##\t1 - Entrar\t\t\t\t\t###\n" +
-                "##\t2 - Cadastrar Usuário\t\t###\n" +
-                "##\t3 - Encerrar\t\t\t\t###\n" +
-                "###################################\n");
-        Scanner inputScanner = new Scanner(System.in);
-        return inputScanner.nextInt();
+        while (true) {
+            System.out.println("\n" +
+                    "###################################\n" +
+                    "##\t1 - Entrar\t\t\t\t\t###\n" +
+                    "##\t2 - Cadastrar Usuário\t\t###\n" +
+                    "##\t3 - Encerrar\t\t\t\t###\n" +
+                    "###################################\n");
+            Scanner inputScanner = new Scanner(System.in);
+            int entrada = inputScanner.nextInt();
+            if (validate(entrada >= 1 && entrada <= 3, "Opção inválida!")){
+                return entrada;
+            }
+        }
+    }
+
+    private static boolean validate(boolean condition, String message) {
+        if (!condition) {
+            System.out.println(message);
+        }
+        return condition;
     }
 
     public static String[] requerirCredenciais(){
@@ -54,43 +67,40 @@ public class Interface {
         return new Usuario(nome, email, senha);
     }
 
-    public static int requerirIndex() {
-        int index;
-        Scanner inputScanner = new Scanner(System.in);
+    public static int requerirIndex(int size) {
+        while (true) {
+            Scanner inputScanner = new Scanner(System.in);
 
-        System.out.print("\n" +
-                "###################################\n" +
-                "##\tDigite o índice: \t\t\t\t\t\t###\n");
-        return inputScanner.nextInt();
+            System.out.print("\n" +
+                    "###################################\n" +
+                    "##\tDigite o índice: \t\t\t\t\t\t###\n");
+            int entrada = inputScanner.nextInt();
+            if (validate(entrada >= 0 && entrada < size, "Opção inválida!")) {
+                return entrada;
+            }
+        }
     }
 
     public static boolean atualizarUsuario(UsuarioController usuarioController) {
         usuarioController.read();
-        return usuarioController.update(requerirIndex(), cadastrarUsuario());
+        return usuarioController.update(requerirIndex(usuarioController.getUsuarios().size()), cadastrarUsuario());
     }
     public static int controllerCrudPrincipal(LicitacaoController licitacaoController) {
-        System.out.println("\n" +
-                "###################################\n" +
-                "##\t1 - Usuarios\t\t\t\t\t###\n" +
-                "##\t2 - Licitações\t\t###\n" +
-                (licitacaoController.getLicitacoes().size() != 0?"##\t3 - Leilao\t\t\t\t###\n":"")+
-                "##\t4 - Compradores\t\t\t\t###\n" +
-                "##\t5 - sair\t\t\t\t###\n" +
-                "###################################\n");
-        Scanner inputScanner = new Scanner(System.in);
-        return inputScanner.nextInt();
-    }
-
-    public static int controllerCrudLeilao(LicitacaoController licitacaoController) {
-        System.out.println("\n" +
-                "###################################\n" +
-                "##\t1 - Usuarios\t\t\t\t\t###\n" +
-                "##\t2 - Licitações\t\t###\n" +
-                (licitacaoController.getLicitacoes().size() != 0?"##\t3 - Leilao\t\t\t\t###\n":"")+
-                "##\t4 - sair\t\t\t\t###\n" +
-                "###################################\n");
-        Scanner inputScanner = new Scanner(System.in);
-        return inputScanner.nextInt();
+        while (true) {
+            System.out.println("\n" +
+                    "###################################\n" +
+                    "##\t1 - Usuarios\t\t\t\t\t###\n" +
+                    "##\t2 - Licitações\t\t###\n" +
+                    (licitacaoController.getLicitacoes().size() != 0?"##\t3 - Leilao\t\t\t\t###\n":"")+
+                    "##\t4 - Compradores\t\t\t\t###\n" +
+                    "##\t5 - sair\t\t\t\t###\n" +
+                    "###################################\n");
+            Scanner inputScanner = new Scanner(System.in);
+            int entrada = inputScanner.nextInt();
+            if (validate(entrada >= 0  && entrada <= 5, "Opção inválida!")) {
+                return entrada;
+            }
+        }
     }
 
     public static int controllerCrud() {
@@ -149,7 +159,7 @@ public class Interface {
 
     public static boolean atualizarLicitacao(LicitacaoController licitacaoController) {
         licitacaoController.read();
-        return licitacaoController.update(requerirIndex(), cadastrarLicitacao());
+        return licitacaoController.update(requerirIndex(licitacaoController.getLicitacoes().size()), cadastrarLicitacao());
     }
 
     public static Leilao cadastrarLeilao(LicitacaoController licitacaoController) {
@@ -207,7 +217,7 @@ public class Interface {
 
     public static boolean atualizarLeilao(LeilaoController leilaoController, LicitacaoController licitacaoController) {
         leilaoController.read();
-        return leilaoController.update(requerirIndex(), cadastrarLeilao(licitacaoController));
+        return leilaoController.update(requerirIndex(leilaoController.getLeiloes().size()), cadastrarLeilao(licitacaoController));
     }
 
     public static Proposta  cadastrarProposta(CompradorController compradorController, LeilaoController leilaoController) {
@@ -215,7 +225,7 @@ public class Interface {
 
         Scanner inputScanner = new Scanner(System.in);
         compradorController.read();
-        int clienteIndex = requerirIndex();
+        int clienteIndex = requerirIndex(compradorController.getCompradores().size());
 
         System.out.print("\n" +
                 "###################################\n" +
@@ -227,9 +237,9 @@ public class Interface {
     }
     public static boolean atualizarProposta(LeilaoController leilaoController, CompradorController compradorController) {
         leilaoController.read();
-        Leilao leilao = leilaoController.getLeiloes().get(requerirIndex());
+        Leilao leilao = leilaoController.getLeiloes().get(requerirIndex(leilaoController.getLeiloes().size()));
         leilao.read();
-        return leilao.update(requerirIndex(), cadastrarProposta(compradorController, leilaoController));
+        return leilao.update(requerirIndex(leilao.getPropostas().size()), cadastrarProposta(compradorController, leilaoController));
     }
     public static Comprador cadastraComprador() {
         String nome, email, telefone;
@@ -276,6 +286,6 @@ public class Interface {
     }
     public static boolean atualizarComprador(CompradorController compradorController) {
         compradorController.read();
-        return compradorController.update(requerirIndex(), cadastraComprador());
+        return compradorController.update(requerirIndex(compradorController.getCompradores().size()), cadastraComprador());
     }
 }

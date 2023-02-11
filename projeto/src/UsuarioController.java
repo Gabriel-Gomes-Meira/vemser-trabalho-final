@@ -71,4 +71,5 @@ public class UsuarioController implements Controller {
                     usuarios.get(i).getEmail());
         }
     }
+
 }

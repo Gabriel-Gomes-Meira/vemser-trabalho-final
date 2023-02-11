@@ -40,100 +40,106 @@ public class Main {
             int opcao = Interface.controllerCrudPrincipal(licitacaoController);
 
             if (opcao == 1) {
-                 opcao = Interface.controllerCrud();
-                if (opcao == 1) {
+                int alternativa = Interface.controllerCrud();
+                if (alternativa == 1) {
                     userController.read();
-                } else if (opcao == 2) {
+                } else if (alternativa == 2) {
                     if(userController.create(Interface.cadastrarUsuario())) {
                         System.out.println("Criado");
                     }
-                } else if (opcao == 3) {
-                    if(userController.delete(Interface.requerirIndex())){
+                } else if (alternativa == 3) {
+                    if(userController.delete(Interface.requerirIndex(userController.getUsuarios().size()))){
                         System.out.println("Deletado");
                     }else{
                         System.out.println("Erro");
                     }
-                } else if (opcao == 4) {
+                } else if (alternativa == 4) {
                     if(Interface.atualizarUsuario(userController)){
                         System.out.println("Atualizado");
                     }
                 }
-
             }
-            if (opcao == 2) {
-                opcao = Interface.controllerCrud();
 
-                if (opcao == 1) {
+            if (opcao == 2) {
+                int alternativa = Interface.controllerCrud();
+
+                if (alternativa == 1) {
                     licitacaoController.read();
-                } else if (opcao == 2) {
+                } else if (alternativa == 2) {
                     if(licitacaoController.create(Interface.cadastrarLicitacao())) {
                         System.out.println("Criado");
                     }
-                } else if (opcao == 3) {
-                    if(licitacaoController.delete(Interface.requerirIndex())){
+                } else if (alternativa == 3) {
+                    if(licitacaoController.delete(Interface.requerirIndex(licitacaoController.getLicitacoes().size()))){
                         System.out.println("Deletado");
                     }else{
                         System.out.println("Erro");
                     }
-                } else if (opcao == 4) {
+                } else if (alternativa == 4) {
                     if(Interface.atualizarLicitacao(licitacaoController)){
                         System.out.println("Atualizado");
                     }
                 }
             }
-            if (opcao == 3) {
-                opcao = Interface.controllerCrudLeilao();
 
-                if (opcao == 1) {
+            if (opcao == 3) {
+                int alternativa = Interface.controllerCrudLeilao();
+
+                if (alternativa == 1) {
                     leilaoController.read();
-                } else if (opcao == 2) {
+                } else if (alternativa == 2) {
                     if(leilaoController.create(Interface.cadastrarLeilao(licitacaoController))) {
                         System.out.println("Criado");
                     }
-                } else if (opcao == 3) {
-                    if(leilaoController.delete(Interface.requerirIndex())){
+                } else if (alternativa == 3) {
+                    if(leilaoController.delete(Interface.requerirIndex(leilaoController.getLeiloes().size()))){
                         System.out.println("Deletado");
                     }else{
                         System.out.println("Erro");
                     }
-                } else if (opcao == 4) {
+                } else if (alternativa == 4) {
                     if(Interface.atualizarLeilao(leilaoController, licitacaoController)){
                         System.out.println("Atualizado");
                     }
-                } else if (opcao == 5) {
+                } else if (alternativa == 5) {
                     leilaoController.read();
-                    leilaoController.getLeiloes().get(Interface.requerirIndex()).read();
-                } else if (opcao == 6) {
+                    leilaoController.getLeiloes().get(Interface.requerirIndex(leilaoController.getLeiloes().size())).read();
+                } else if (alternativa == 6) {
                     leilaoController.read();
-                    int leilaoIndex = Interface.requerirIndex();
-                    leilaoController.getLeiloes().get(leilaoIndex).create(Interface.cadastrarProposta(compradorController, leilaoController));
-                } else if (opcao == 7) {
+                    leilaoController.getLeiloes().get(Interface.requerirIndex(leilaoController.getLeiloes().size()))
+                            .create(Interface.cadastrarProposta(compradorController, leilaoController));
+                } else if (alternativa == 7) {
                     leilaoController.read();
-                    leilaoController.getLeiloes().get(Interface.requerirIndex());
-                } else if (opcao == 8) {
+                    leilaoController.getLeiloes().get(Interface.requerirIndex(leilaoController.getLeiloes().size()));
+                } else if (alternativa == 8) {
                     leilaoController.read();
                     Interface.atualizarProposta(leilaoController, compradorController);
                 }
             }
+
             if (opcao == 4) {
-                opcao = Interface.controllerCrud();
-                if (opcao == 1) {
+                int alternativa = Interface.controllerCrud();
+                if (alternativa == 1) {
                     compradorController.read();
-                } else if (opcao == 2) {
+                } else if (alternativa == 2) {
                     if(compradorController.create(Interface.cadastraComprador())) {
                         System.out.println("Criado");
                     }
-                } else if (opcao == 3) {
-                    if(compradorController.delete(Interface.requerirIndex())){
+                } else if (alternativa == 3) {
+                    if(compradorController.delete(Interface.requerirIndex(compradorController.getCompradores().size()))){
                         System.out.println("Deletado");
                     }else{
                         System.out.println("Erro");
                     }
-                } else if (opcao == 4) {
+                } else if (alternativa == 4) {
                     if(Interface. atualizarComprador(compradorController)){
                         System.out.println("Atualizado");
                     }
                 }
+            }
+
+            if(opcao == 5) {
+                System.exit(0);
             }
         }
 
