@@ -79,6 +79,19 @@ public class Interface {
         Scanner inputScanner = new Scanner(System.in);
         return inputScanner.nextInt();
     }
+
+    public static int controllerCrudLeilao(LicitacaoController licitacaoController) {
+        System.out.println("\n" +
+                "###################################\n" +
+                "##\t1 - Usuarios\t\t\t\t\t###\n" +
+                "##\t2 - Licitações\t\t###\n" +
+                (licitacaoController.getLicitacoes().size() != 0?"##\t3 - Leilao\t\t\t\t###\n":"")+
+                "##\t4 - sair\t\t\t\t###\n" +
+                "###################################\n");
+        Scanner inputScanner = new Scanner(System.in);
+        return inputScanner.nextInt();
+    }
+
     public static int controllerCrud() {
         System.out.println("\n" +
                 "###################################\n" +

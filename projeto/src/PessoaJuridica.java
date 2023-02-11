@@ -2,8 +2,8 @@ public class PessoaJuridica extends Comprador{
 
     private String cnpj;
 
-    public PessoaJuridica(String nome, String email, String telefone, int tipoPessoa, String cnpj) {
-        super(nome, email, telefone, tipoPessoa);
+    public PessoaJuridica(String nome, String email, String telefone, String cnpj) {
+        super(nome, email, telefone);
 
         this.cnpj = cnpj;
     }
