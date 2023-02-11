@@ -1,14 +1,13 @@
-public class Comprador {
+abstract class Comprador {
     String nome, email, telefone, documento;
     int tipoPessoa; // 1 - Pessoa Fisica
                     // 2 - Pessao Juridica
 
 
-    public Comprador(String nome, String email, String telefone, String documento, int tipoPessoa) {
+    public Comprador(String nome, String email, String telefone, int tipoPessoa) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
-        this.documento = documento;
         this.tipoPessoa = tipoPessoa;
     }
 
@@ -34,14 +33,6 @@ public class Comprador {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-
-    public String getDocumento() {
-        return documento;
-    }
-
-    public void setDocumento(String documento) {
-        this.documento = documento;
     }
 
     public int getTipoPessoa() {
