@@ -83,4 +83,51 @@ public class Interface {
 
         return new Usuario(nome, email, senha);
     }
+    public static int controllerCrudPrincipal() {
+        System.out.println("\n" +
+                "###################################\n" +
+                "##\t1 - Usuarios\t\t\t\t\t###\n" +
+                "##\t2 - Licitações\t\t###\n" +
+                "##\t3 - Leilao\t\t\t\t###\n" +
+                "##\t4 - sair\t\t\t\t###\n" +
+                "###################################\n");
+        Scanner inputScanner = new Scanner(System.in);
+        return inputScanner.nextInt();
+    }
+    public static int controllerCrud() {
+        System.out.println("\n" +
+                "###################################\n" +
+                "##\t1 - listar\t\t\t\t\t###\n" +
+                "##\t2 - cadastrar\t\t###\n" +
+                "##\t3 - deletar\t\t\t\t###\n" +
+                "##\t4 - atualizar\t\t\t\t###\n" +
+                "###################################\n");
+        Scanner inputScanner = new Scanner(System.in);
+        return inputScanner.nextInt();
+    }
+
+    public static Licitacao cadastrarLicitacao() {
+        String descricao, edital;
+        double valorAvaliado;
+
+        Scanner inputScanner = new Scanner(System.in);
+
+        System.out.print("\n" +
+                "###################################\n" +
+                "##\tDescrição: \t\t\t\t\t\t###\n");
+        descricao = inputScanner.nextLine();
+
+        System.out.print("\n" +
+                "###################################\n" +
+                "##\tEdital: \t\t\t\t\t\t###\n");
+        edital = inputScanner.nextLine();
+
+        System.out.print("\n" +
+                "###################################\n" +
+                "##\tValor avaliado: \t\t\t\t\t\t###\n");
+        valorAvaliado = inputScanner.nextDouble();
+
+
+        return new Licitacao(descricao, edital, valorAvaliado);
+    }
 }

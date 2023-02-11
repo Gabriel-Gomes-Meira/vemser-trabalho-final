@@ -1,4 +1,4 @@
-public class Licitacao {
+public class Licitacao  {
     String descricao, edital;
     double valorAvaliado;
 
@@ -31,4 +31,5 @@ public class Licitacao {
     public void setValorAvaliado(double valorAvaliado) {
         this.valorAvaliado = valorAvaliado;
     }
+
 }
