@@ -65,7 +65,10 @@ public class UsuarioController implements Controller {
     @Override
     public void read() {
         for (int i = 0; i < usuarios.size(); i++) {
-            System.out.println(usuarios.get(i));
+            System.out.printf("\n" +
+                            "%d | Usuário {%s, %s}",
+                    i, usuarios.get(i).getNome(),
+                    usuarios.get(i).getEmail());
         }
     }
 }

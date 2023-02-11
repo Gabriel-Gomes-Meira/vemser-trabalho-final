@@ -17,9 +17,17 @@ public class LicitacaoController implements  Controller{
         return false;
     }
 
+    public ArrayList<Licitacao> getLicitacoes() {
+        return licitacoes;
+    }
+
+    public void setLicitacoes(ArrayList<Licitacao> licitacoes) {
+        this.licitacoes = licitacoes;
+    }
+
     @Override
     public boolean create(Object licitacao) {
-        if(licitacao instanceof Licitacao && licitionExists((Licitacao) licitacao)){
+        if(licitacao instanceof Licitacao && !licitionExists((Licitacao) licitacao)){
             licitacoes.add((Licitacao) licitacao);
             return true;
         }
@@ -49,7 +57,11 @@ public class LicitacaoController implements  Controller{
     @Override
     public void read() {
         for (int i = 0; i < licitacoes.size(); i++) {
-            System.out.println(licitacoes.get(i));
+            System.out.printf("\n" +
+                            "%d | Licitação {%s\n, %s, %.2f}",
+                    i, licitacoes.get(i).getDescricao(),
+                    licitacoes.get(i).getEdital(),
+                    licitacoes.get(i).getValorAvaliado());
         }
     }
 }

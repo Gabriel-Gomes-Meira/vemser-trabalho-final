@@ -7,10 +7,11 @@ public class Leilao {
 
     ArrayList<Proposta> propostas;
 
-    public Leilao(Licitacao licitacao, Date dataInicio, ArrayList<Proposta> propostas) {
+    public Leilao(Licitacao licitacao, Date dataInicio, Date dataFim) {
         this.licitacao = licitacao;
         this.dataInicio = dataInicio;
-        this.propostas = propostas;
+        this.dataFim = dataFim;
+        this.propostas = new ArrayList<>();
     }
 
     public Licitacao getLicitacao() {
@@ -33,12 +34,8 @@ public class Leilao {
         return dataFim;
     }
 
-//    public void setDataFim(Date dataFim) {
-//        this.dataFim = dataFim;
-//    }
-
-    public void encerrarLeilao(){
-        // dataFim = now
+    public void setDataFim(Date dataFim) {
+        this.dataFim = dataFim;
     }
 
     public void levantarProposta(Proposta proposta) {
