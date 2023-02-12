@@ -1,7 +1,9 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 
-public class LicitacaoController implements  Controller{
+public class LicitacaoController extends Controller{
 
     private ArrayList<Licitacao> licitacoes;
     public LicitacaoController() {
@@ -64,4 +66,35 @@ public class LicitacaoController implements  Controller{
                     licitacoes.get(i).getValorAvaliado());
         }
     }
+
+    @Override
+    public List collection() {
+        return getLicitacoes();
+    }
+
+    @Override
+    public Object showFormCreate() {
+        String descricao, edital;
+        double valorAvaliado;
+
+        Scanner inputScanner = new Scanner(System.in);
+
+        System.out.print("\n" +
+                "###################################\n" +
+                "##\tDescrição: \t\t\t\t\t\t###\n");
+        descricao = inputScanner.nextLine();
+
+        System.out.print("\n" +
+                "###################################\n" +
+                "##\tEdital: \t\t\t\t\t\t###\n");
+        edital = inputScanner.nextLine();
+
+        System.out.print("\n" +
+                "###################################\n" +
+                "##\tValor avaliado: \t\t\t\t\t\t###\n");
+        valorAvaliado = inputScanner.nextDouble();
+
+        return new Licitacao(descricao, edital, valorAvaliado);
+    }
+
 }

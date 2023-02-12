@@ -1,7 +1,9 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 
-public class UsuarioController implements Controller {
+public class UsuarioController extends Controller {
     private ArrayList<Usuario> usuarios;
 
     public UsuarioController() {
@@ -70,6 +72,35 @@ public class UsuarioController implements Controller {
                     i, usuarios.get(i).getNome(),
                     usuarios.get(i).getEmail());
         }
+    }
+
+    @Override
+    public List collection() {
+        return getUsuarios();
+    }
+
+
+    @Override
+    public Object showFormCreate() {
+        String nome, email, senha;
+        Scanner inputScanner = new Scanner(System.in);
+
+        System.out.print("\n" +
+                "###################################\n" +
+                "##\tNome: \t\t\t\t\t\t###\n");
+        nome = inputScanner.nextLine();
+
+        System.out.print("\n" +
+                "###################################\n" +
+                "##\tEmail: \t\t\t\t\t\t###\n");
+        email = inputScanner.nextLine();
+
+        System.out.print("\n" +
+                "###################################\n" +
+                "##\tSenha: \t\t\t\t\t\t###\n");
+        senha = inputScanner.nextLine();
+
+        return new Usuario(nome, email, senha);
     }
 
 }

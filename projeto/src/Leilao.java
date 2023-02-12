@@ -1,11 +1,14 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
-public class Leilao implements Controller{
-    Licitacao licitacao;
-    Date dataInicio, dataFim;
+public class Leilao extends Controller{
+    private Licitacao licitacao;
+    private Date dataInicio, dataFim;
 
-    ArrayList<Proposta> propostas;
+    private ArrayList<Proposta> propostas;
 
     public Leilao(Licitacao licitacao, Date dataInicio, Date dataFim) {
         this.licitacao = licitacao;
@@ -91,4 +94,40 @@ public class Leilao implements Controller{
                     propostas.get(i).comprador);
         }
     }
+
+    @Override
+    public List collection() {
+        return getPropostas();
+    }
+
+
+
+    @Override
+    public Object showFormCreate() {
+        double valor;
+        Scanner inputScanner = new Scanner(System.in);
+
+        System.out.print("\n" +
+                "###################################\n" +
+                "##\tValor: \t\t\t\t\t\t###\n");
+        valor = inputScanner.nextDouble();
+
+        return new Proposta(valor, new Comprador("", "", "", "", 1));
+    }
+
+    // Classes com atributos dependentes de outros outras classes
+    // implmentam o showFormCreate dessa forma.
+    public Object showFormCreate(Controller controller) {
+        Comprador compradorEscolhido = (Comprador) controller.selectItem();
+
+        Proposta proposta = (Proposta) this.showFormCreate();
+        proposta.setComprador(compradorEscolhido);
+        return proposta;
+    }
+
+    public void showFormUpdate(Controller controller) {
+        read();
+        update(showFormIndex(), showFormCreate(controller));
+    }
+
 }
