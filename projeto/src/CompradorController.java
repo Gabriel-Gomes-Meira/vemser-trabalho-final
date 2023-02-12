@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class CompradorController extends Controller {
@@ -68,8 +69,7 @@ public class CompradorController extends Controller {
 
     @Override
     public Object showFormCreate() {
-        String nome, email, telefone, documento;
-        int tipo;
+        String nome, email, telefone, documento, tipo;
 
         Scanner inputScanner = new Scanner(System.in);
 
@@ -85,23 +85,26 @@ public class CompradorController extends Controller {
 
         System.out.print("\n" +
                 "###################################\n" +
-                "##\tSenha: \t\t\t\t\t\t###\n");
+                "##\tTelefone: \t\t\t\t\t\t###\n");
         telefone = inputScanner.nextLine();
 
-        System.out.print("\n" +
-                "###################################\n" +
-                "##\tdigite tipo: \t\t\t\t\t\t###\n" +
-                "##\t1 - Pessoa fisica: \t\t\t\t\t\t###\n" +
-                "##\t2 - Pessoa juridica: \t\t\t\t\t\t###\n");
-        tipo = inputScanner.nextInt();
+        do {
+            System.out.print("\n" +
+                    "###################################\n" +
+                    "##\tTipo de Pessoa: \t\t\t\t\t\t###\n" +
+                    "##\t1 - Pessoa fisica: \t\t\t\t\t\t###\n" +
+                    "##\t2 - Pessoa juridica: \t\t\t\t\t\t###\n");
+            tipo = inputScanner.nextLine();
+        } while (!validate(tipo.equals("1") || tipo.equals("2"), "Valor inválido!"));
+
 
         System.out.printf("\n" +
                 "###################################\n" +
                 "##\tDigite o %s: \t\t\t\t\t\t###\n",
-                tipo==1?"CPF":"CNPJ");
+                tipo.equals("1")?"CPF":"CNPJ");
         documento = inputScanner.nextLine();
 
-        return new Comprador(documento, nome, email, telefone, tipo);
+        return new Comprador(documento, nome, email, telefone, Integer.valueOf(tipo));
     }
 
 }

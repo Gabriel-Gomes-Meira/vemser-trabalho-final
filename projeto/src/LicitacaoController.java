@@ -89,10 +89,12 @@ public class LicitacaoController extends Controller{
                 "##\tEdital: \t\t\t\t\t\t###\n");
         edital = inputScanner.nextLine();
 
-        System.out.print("\n" +
-                "###################################\n" +
-                "##\tValor avaliado: \t\t\t\t\t\t###\n");
-        valorAvaliado = inputScanner.nextDouble();
+        do {
+            System.out.print("\n" +
+                    "###################################\n" +
+                    "##\tValor avaliado: \t\t\t\t\t\t###\n");
+            valorAvaliado = inputScanner.nextDouble();
+        } while (validate(valorAvaliado > 0, "Valor inválido!"));
 
         return new Licitacao(descricao, edital, valorAvaliado);
     }

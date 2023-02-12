@@ -1,6 +1,6 @@
 public class Licitacao  {
-    String descricao, edital;
-    double valorAvaliado;
+    private String descricao, edital;
+    private double valorAvaliado;
 
     public Licitacao(String descricao, String edital, double valorAvaliado) {
         this.descricao = descricao;

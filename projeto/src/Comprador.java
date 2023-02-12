@@ -1,7 +1,7 @@
 public class Comprador {
     private String nome, email, telefone, documento;
     private int tipoPessoa;                     // 1 - Pessoa Fisica
-                                        // 2 - Pessao Juridica
+                                                // 2 - Pessao Juridica
 
 
     public Comprador(String documento, String nome, String email, String telefone, int tipoPessoa) {

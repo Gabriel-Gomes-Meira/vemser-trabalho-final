@@ -1,5 +1,4 @@
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -65,7 +64,7 @@ public class LeilaoController extends Controller {
     }
 
     @Override
-    public int showOptions() {
+    public String showOptions() {
         System.out.println("\n" +
                 "#################################################################\n" +
                 "##\t1 - Listar\t\t\t\t\t\t\t\t\t\t\t\t#####\n" +
@@ -76,10 +75,10 @@ public class LeilaoController extends Controller {
                 "##\t6 - Cadastrar proposta\t\t\t\t\t\t\t\t\t#####\n" +
                 "##\t7 - Atualizar proposta\t\t\t\t\t\t\t\t\t#####\n" +
                 "##\t8 - Deletar proposta\t\t\t\t\t\t\t\t\t#####\n" +
-                "##\t9 - Sair\t\t\t\t\t\t\t\t\t\t\t\t#####\n" +
+                "##\tPressione qualquer outro tecla para sair\t\t\t\t#####\n" +
                 "#################################################################\n");
         Scanner inputScanner = new Scanner(System.in);
-        return inputScanner.nextInt();
+        return inputScanner.nextLine();
     }
 
     @Override
@@ -88,15 +87,17 @@ public class LeilaoController extends Controller {
                 dataFim;
         Scanner inputScanner = new Scanner(System.in);
 
-        System.out.print("\n" +
-                "###################################\n" +
-                "##\tData de Inicio (yyyy-mm-dd): \t\t\t\t\t\t###\n");
-        dataInicio = inputScanner.nextLine();
+        do {
+            System.out.print("\n" +
+                    "###################################\n" +
+                    "##\tData de Inicio (yyyy-mm-dd): \t\t\t\t\t\t###\n");
+            dataInicio = inputScanner.nextLine();
 
-        System.out.print("\n" +
-                "###################################\n" +
-                "##\tData de Termino (yyyy-mm-dd): \t\t\t\t\t\t###\n");
-        dataFim = inputScanner.nextLine();
+            System.out.print("\n" +
+                    "###################################\n" +
+                    "##\tData de Termino (yyyy-mm-dd): \t\t\t\t\t\t###\n");
+            dataFim = inputScanner.nextLine();
+        } while (!validate(Date.valueOf(dataInicio).getTime() <= Date.valueOf(dataFim).getTime(), "Data de termino não pode ser inferior à de inicio!"));
 
         return new Leilao(new Licitacao("", "", 0),
                 Date.valueOf(dataInicio), Date.valueOf(dataFim));

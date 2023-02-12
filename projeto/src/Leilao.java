@@ -88,10 +88,11 @@ public class Leilao extends Controller{
     public void read() {
         for (int i = 0; i < propostas.size(); i++) {
             System.out.printf("\n" +
-                            "%d | Propostas {%s, %s}",
+                            "%d | Propostas {%s, %s, %s}",
                     i,
-                    propostas.get(i).valor,
-                    propostas.get(i).comprador);
+                    propostas.get(i).getValor(),
+                    propostas.get(i).getComprador().getNome(),
+                    propostas.get(i).getComprador().getDocumento());
         }
     }
 
@@ -100,17 +101,17 @@ public class Leilao extends Controller{
         return getPropostas();
     }
 
-
-
     @Override
     public Object showFormCreate() {
         double valor;
         Scanner inputScanner = new Scanner(System.in);
 
-        System.out.print("\n" +
-                "###################################\n" +
-                "##\tValor: \t\t\t\t\t\t###\n");
-        valor = inputScanner.nextDouble();
+        do {
+            System.out.print("\n" +
+                    "###################################\n" +
+                    "##\tValor: \t\t\t\t\t\t###\n");
+            valor = inputScanner.nextDouble();
+        } while (!validate(valor > getLicitacao().getValorAvaliado(), String.format("Valor inválido! Mínimo: %.2f", getLicitacao().getValorAvaliado())));
 
         return new Proposta(valor, new Comprador("", "", "", "", 1));
     }
@@ -126,7 +127,6 @@ public class Leilao extends Controller{
     }
 
     public void showFormUpdate(Controller controller) {
-        read();
         update(showFormIndex(), showFormCreate(controller));
     }
 

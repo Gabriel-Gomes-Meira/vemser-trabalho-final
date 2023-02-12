@@ -1,6 +1,6 @@
 public class Proposta {
-    double valor;
-    Comprador comprador;
+    private double valor;
+    private Comprador comprador;
 
     public Proposta(double valor, Comprador comprador) {
         this.valor = valor;
