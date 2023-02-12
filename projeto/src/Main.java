@@ -1,147 +1,137 @@
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-
-        UsuarioController userController = new UsuarioController();
+        UsuarioController usuarioController = new UsuarioController();
         LicitacaoController licitacaoController = new LicitacaoController();
         LeilaoController leilaoController = new LeilaoController();
         CompradorController compradorController = new CompradorController();
 
-        compradorController.create(new PessoaFisica("leandro","leandrodeAsis@gmail.com","2184568569", "08956745398"));
-        userController.create(new Usuario("aaaaa", "aaaaa@email.com", "#00001"));
+        compradorController.create(new Comprador("2184568569", "leandro", "leandrodeAsis@gmail.com", "08956745398", 1));
+        usuarioController.create(new Usuario("root", "root@email.com", "0000"));
         licitacaoController.create(new Licitacao("Moto Honda", "114/23", 3200));
         leilaoController.create(new Leilao(licitacaoController.getLicitacoes().get(0),
-                        Date.valueOf(LocalDate.of(2024,5,23)),
-                        Date.valueOf(LocalDate.of(2024,5,23))));
+                Date.valueOf(LocalDate.of(2024, 5, 23)),
+                Date.valueOf(LocalDate.of(2024, 5, 23))));
+        leilaoController.getLeiloes().get(0).create(new Proposta(20000, compradorController.getCompradores().get(0)));
 
-//        while (true) {
-//            int opcao = Interface.login();
-//
-//            if (opcao == 1) {
-//                String credenciais[] = Interface.requerirCredenciais();
-//                if (userController.findAndAuth(credenciais)){
-//                    System.out.println("Logado!");
-//                    break;
-//                }
-//                System.out.println("Não encontramos usuário com esses dados!");
-//
-//            } else if (opcao == 2) {
-//                    if(userController.create(Interface.cadastrarUsuario())){
-//                        System.out.println("Criado");
-//                    }
-//            }
-//        }
+        if (login(usuarioController)){
+            do {
+                String opcao = paginaPrincipal(licitacaoController);
+                switch (opcao) {
+                    case "1":
+                        crudSemDependencia(usuarioController);
+                        continue;
+                    case "2":
+                        crudSemDependencia(licitacaoController);
+                        continue;
+                    case "3":
+                        crudLeiloes(leilaoController, licitacaoController, compradorController);
+                        continue;
+                    case "4":
+                        crudSemDependencia(compradorController);
+                        continue;
+                    default:
+                        System.exit(0);
+                }
+            } while (true);
+        }
+    }
 
+    public static String paginaPrincipal(LicitacaoController licitacaoController) {
+        System.out.println("\n" +
+                "#################################################################\n" +
+                "##\t1 - Usuarios\t\t\t\t\t\t\t\t\t\t\t#####\n" +
+                "##\t2 - Licitações\t\t\t\t\t\t\t\t\t\t\t#####\n" +
+                (licitacaoController.getLicitacoes().size() != 0?"##\t3 - Leilao\t\t\t\t\t\t\t\t\t\t\t\t#####\n":"")+
+                "##\t4 - Compradores\t\t\t\t\t\t\t\t\t\t\t#####\n" +
+                "##\tPressione qualquer outro tecla para sair\t\t\t\t#####\n" +
+                "#################################################################\n");
+        Scanner inputScanner = new Scanner(System.in);
+        return inputScanner.nextLine();
+    }
+
+    public static void crudSemDependencia(Controller controller){
+        boolean sair = false;
+        do {
+            String opcao = controller.showOptions();
+                switch (opcao){
+                    case "1":
+                        controller.read();
+                        break;
+                    case "2":
+                        controller.create(controller.showFormCreate());
+                        break;
+                    case "3":
+                        controller.showFormUpdate();
+                        break;
+                    case "4":
+                        controller.delete(controller.showFormIndex());
+                        break;
+                    default:
+                        sair = true;
+                }
+        } while (!sair);
+    }
+
+    public static void crudLeiloes(LeilaoController leilaoController, LicitacaoController licitacaoController, CompradorController compradorController){
+        boolean sair = false;
+        do {
+            String opcao = leilaoController.showOptions();
+                if (opcao.equals("1")) {
+                    leilaoController.read();
+                } else if (opcao.equals("2")) {
+                    leilaoController.create(leilaoController.showFormCreate(licitacaoController));
+                } else if (opcao.equals("3")) {
+                    leilaoController.showFormUpdate(licitacaoController);
+                } else if (opcao.equals("4")) {
+                    leilaoController.delete(leilaoController.showFormIndex());
+                } else if (opcao.equals("5")) {
+                    Leilao leilao = (Leilao) leilaoController.selectItem();
+                    leilao.read();
+                } else if (opcao.equals("6")) {
+                    Leilao leilao = (Leilao) leilaoController.selectItem();
+                    leilao.create(leilao.showFormCreate(compradorController));
+                } else if (opcao.equals("7")) {
+                    Leilao leilao = (Leilao) leilaoController.selectItem();
+                    leilao.showFormUpdate(compradorController);
+                } else if (opcao.equals("8")) {
+                    Leilao leilao = (Leilao) leilaoController.selectItem();;
+                    leilao.delete(leilao.showFormIndex());
+                } else {
+                    sair = true;
+                }
+        } while (!sair);
+    }
+
+    public static boolean login(UsuarioController usuarioController) {
         while (true) {
-            int opcao = Interface.controllerCrudPrincipal(licitacaoController);
+            System.out.println("\n" +
+                    "#################################################################\n" +
+                    "##\t1 - Logar\t\t\t\t\t\t\t\t\t\t\t\t#####\n" +
+                    "##\tPressione qualquer outro número para sair\t\t\t\t#####\n" +
+                    "#################################################################\n");
+            Scanner inputScanner = new Scanner(System.in);
+            String opcao = inputScanner.nextLine();
 
-            if (opcao == 1) {
-                int alternativa = Interface.controllerCrud();
-                if (alternativa == 1) {
-                    userController.read();
-                } else if (alternativa == 2) {
-                    if(userController.create(Interface.cadastrarUsuario())) {
-                        System.out.println("Criado");
-                    }
-                } else if (alternativa == 3) {
-                    if(userController.delete(Interface.requerirIndex(userController.getUsuarios().size()))){
-                        System.out.println("Deletado");
-                    }else{
-                        System.out.println("Erro");
-                    }
-                } else if (alternativa == 4) {
-                    if(Interface.atualizarUsuario(userController)){
-                        System.out.println("Atualizado");
-                    }
+            if (opcao.equals("1")) {
+                String credenciais[] = new String[2];
+                System.out.println("Email:");
+                credenciais[0] = inputScanner.nextLine();
+                System.out.println("Senha:");
+                credenciais[1] = inputScanner.nextLine();
+                if (usuarioController.findAndAuth(credenciais)) {
+                    System.out.println("Logado!");
+                    return true;
                 }
-            }
-
-            if (opcao == 2) {
-                int alternativa = Interface.controllerCrud();
-
-                if (alternativa == 1) {
-                    licitacaoController.read();
-                } else if (alternativa == 2) {
-                    if(licitacaoController.create(Interface.cadastrarLicitacao())) {
-                        System.out.println("Criado");
-                    }
-                } else if (alternativa == 3) {
-                    if(licitacaoController.delete(Interface.requerirIndex(licitacaoController.getLicitacoes().size()))){
-                        System.out.println("Deletado");
-                    }else{
-                        System.out.println("Erro");
-                    }
-                } else if (alternativa == 4) {
-                    if(Interface.atualizarLicitacao(licitacaoController)){
-                        System.out.println("Atualizado");
-                    }
-                }
-            }
-
-            if (opcao == 3) {
-                int alternativa = Interface.controllerCrudLeilao();
-
-                if (alternativa == 1) {
-                    leilaoController.read();
-                } else if (alternativa == 2) {
-                    if(leilaoController.create(Interface.cadastrarLeilao(licitacaoController))) {
-                        System.out.println("Criado");
-                    }
-                } else if (alternativa == 3) {
-                    if(leilaoController.delete(Interface.requerirIndex(leilaoController.getLeiloes().size()))){
-                        System.out.println("Deletado");
-                    }else{
-                        System.out.println("Erro");
-                    }
-                } else if (alternativa == 4) {
-                    if(Interface.atualizarLeilao(leilaoController, licitacaoController)){
-                        System.out.println("Atualizado");
-                    }
-                } else if (alternativa == 5) {
-                    leilaoController.read();
-                    leilaoController.getLeiloes().get(Interface.requerirIndex(leilaoController.getLeiloes().size())).read();
-                } else if (alternativa == 6) {
-                    leilaoController.read();
-                    leilaoController.getLeiloes().get(Interface.requerirIndex(leilaoController.getLeiloes().size()))
-                            .create(Interface.cadastrarProposta(compradorController, leilaoController));
-                } else if (alternativa == 7) {
-                    leilaoController.read();
-                    leilaoController.getLeiloes().get(Interface.requerirIndex(leilaoController.getLeiloes().size()));
-                } else if (alternativa == 8) {
-                    leilaoController.read();
-                    Interface.atualizarProposta(leilaoController, compradorController);
-                }
-            }
-
-            if (opcao == 4) {
-                int alternativa = Interface.controllerCrud();
-                if (alternativa == 1) {
-                    compradorController.read();
-                } else if (alternativa == 2) {
-                    if(compradorController.create(Interface.cadastraComprador())) {
-                        System.out.println("Criado");
-                    }
-                } else if (alternativa == 3) {
-                    if(compradorController.delete(Interface.requerirIndex(compradorController.getCompradores().size()))){
-                        System.out.println("Deletado");
-                    }else{
-                        System.out.println("Erro");
-                    }
-                } else if (alternativa == 4) {
-                    if(Interface. atualizarComprador(compradorController)){
-                        System.out.println("Atualizado");
-                    }
-                }
-            }
-
-            if(opcao == 5) {
+                System.out.println("Não encontramos usuário com esses dados!");
+            } else {
                 System.exit(0);
             }
         }
-
     }
 }

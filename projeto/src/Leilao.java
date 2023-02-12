@@ -1,11 +1,14 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
-public class Leilao implements Controller{
-    Licitacao licitacao;
-    Date dataInicio, dataFim;
+public class Leilao extends Controller{
+    private Licitacao licitacao;
+    private Date dataInicio, dataFim;
 
-    ArrayList<Proposta> propostas;
+    private ArrayList<Proposta> propostas;
 
     public Leilao(Licitacao licitacao, Date dataInicio, Date dataFim) {
         this.licitacao = licitacao;
@@ -85,10 +88,46 @@ public class Leilao implements Controller{
     public void read() {
         for (int i = 0; i < propostas.size(); i++) {
             System.out.printf("\n" +
-                            "%d | Propostas {%s, %s}",
+                            "%d | Propostas {%s, %s, %s}",
                     i,
-                    propostas.get(i).valor,
-                    propostas.get(i).comprador);
+                    propostas.get(i).getValor(),
+                    propostas.get(i).getComprador().getNome(),
+                    propostas.get(i).getComprador().getDocumento());
         }
     }
+
+    @Override
+    public List collection() {
+        return getPropostas();
+    }
+
+    @Override
+    public Object showFormCreate() {
+        double valor;
+        Scanner inputScanner = new Scanner(System.in);
+
+        do {
+            System.out.print("\n" +
+                    "###################################\n" +
+                    "##\tValor: \t\t\t\t\t\t###\n");
+            valor = inputScanner.nextDouble();
+        } while (!validate(valor > getLicitacao().getValorAvaliado(), String.format("Valor inválido! Mínimo: %.2f", getLicitacao().getValorAvaliado())));
+
+        return new Proposta(valor, new Comprador("", "", "", "", 1));
+    }
+
+    // Classes com atributos dependentes de outros outras classes
+    // implmentam o showFormCreate dessa forma.
+    public Object showFormCreate(Controller controller) {
+        Comprador compradorEscolhido = (Comprador) controller.selectItem();
+
+        Proposta proposta = (Proposta) this.showFormCreate();
+        proposta.setComprador(compradorEscolhido);
+        return proposta;
+    }
+
+    public void showFormUpdate(Controller controller) {
+        update(showFormIndex(), showFormCreate(controller));
+    }
+
 }
