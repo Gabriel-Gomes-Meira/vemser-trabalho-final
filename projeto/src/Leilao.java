@@ -1,8 +1,7 @@
+import javax.print.DocFlavor;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Leilao extends Controller{
     private Licitacao licitacao;
@@ -41,11 +40,6 @@ public class Leilao extends Controller{
         this.dataFim = dataFim;
     }
 
-    public void levantarProposta(Proposta proposta) {
-        // talvez adicionar validadção se a proposta tem um valor realmente maior dos que a anterior
-        propostas.add(proposta);
-    }
-
     public ArrayList<Proposta> getPropostas() {
         return propostas;
     }
@@ -54,9 +48,18 @@ public class Leilao extends Controller{
         this.propostas = propostas;
     }
 
+    public Proposta getGanhador() {
+        List<Proposta> sortedPropostas = getPropostas().stream()
+                                                            .sorted(Comparator.comparing(Proposta::getValor))
+                                                            .collect(Collectors.toList());
+        return sortedPropostas.get(sortedPropostas.size() - 1);
+    }
+
     @Override
     public boolean create(Object proposta) {
-        if(proposta instanceof Proposta){
+        if(proposta instanceof Proposta &&
+                validate(getGanhador().getValor() < ((Proposta) proposta).getValor(),
+                        String.format("Valor inválido! Deve superar a proposta ganhadora! Mínimo: %.2f", getGanhador().getValor()))){
             propostas.add((Proposta) proposta);
             return true;
         }
@@ -88,11 +91,14 @@ public class Leilao extends Controller{
     public void read() {
         for (int i = 0; i < propostas.size(); i++) {
             System.out.printf("\n" +
-                            "%d | Propostas {%s, %s, %s}",
+                            "%d | Propostas {%s, %s, %s}\n" +
+                            "Ganhador: %s, %.2f",
                     i,
                     propostas.get(i).getValor(),
                     propostas.get(i).getComprador().getNome(),
-                    propostas.get(i).getComprador().getDocumento());
+                    propostas.get(i).getComprador().getDocumento(),
+                    getGanhador().getComprador().getNome(),
+                    getGanhador().getValor());
         }
     }
 
