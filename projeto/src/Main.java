@@ -19,7 +19,7 @@ public class Main {
                 Date.valueOf(LocalDate.of(2024, 5, 23))));
         leilaoController.getLeiloes().get(0).create(new Proposta(20000, compradorController.getCompradores().get(0)));
 
-//        if (login(usuarioController)){
+        if (login(usuarioController)){
             do {
                 String opcao = paginaPrincipal(licitacaoController);
                 switch (opcao) {
@@ -39,7 +39,7 @@ public class Main {
                         System.exit(0);
                 }
             } while (true);
-//        }
+        }
     }
 
     public static String paginaPrincipal(LicitacaoController licitacaoController) {
