@@ -49,10 +49,14 @@ public class Leilao extends Controller{
     }
 
     public Proposta getGanhador() {
-        List<Proposta> sortedPropostas = getPropostas().stream()
-                                                            .sorted(Comparator.comparing(Proposta::getValor))
-                                                            .collect(Collectors.toList());
-        return sortedPropostas.get(sortedPropostas.size() - 1);
+        if (propostas.size() > 0) {
+            List<Proposta> sortedPropostas = getPropostas().stream()
+                    .sorted(Comparator.comparing(Proposta::getValor))
+                    .collect(Collectors.toList());
+            return sortedPropostas.get(sortedPropostas.size() - 1);
+        } else {
+            return new Proposta(0, new Comprador("", "Não há ganhador", "", "", 1));
+        }
     }
 
     @Override
@@ -91,12 +95,15 @@ public class Leilao extends Controller{
     public void read() {
         for (int i = 0; i < propostas.size(); i++) {
             System.out.printf("\n" +
-                            "%d | Propostas {%s, %s, %s}\n" +
-                            "Ganhador: %s, %.2f",
+                            "%d | Propostas {%s, %s, %s}\n",
                     i,
                     propostas.get(i).getValor(),
                     propostas.get(i).getComprador().getNome(),
-                    propostas.get(i).getComprador().getDocumento(),
+                    propostas.get(i).getComprador().getDocumento());
+        }
+
+        if (propostas.size() > 0){
+            System.out.printf("Ganhador: %s, %.2f",
                     getGanhador().getComprador().getNome(),
                     getGanhador().getValor());
         }
