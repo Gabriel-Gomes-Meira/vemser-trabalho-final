@@ -10,7 +10,7 @@ public class LicitacaoController extends Controller{
         this.licitacoes = new ArrayList<>();
     }
 
-    private boolean licitionExists(Licitacao licitacao){
+    private boolean verifyIfExists(Licitacao licitacao){
         for (int i = 0; i < licitacoes.size(); i++) {
             if(Objects.equals(licitacoes.get(i).getEdital(), licitacao.getEdital())){
                 return true;
@@ -29,7 +29,7 @@ public class LicitacaoController extends Controller{
 
     @Override
     public boolean create(Object licitacao) {
-        if(licitacao instanceof Licitacao && !licitionExists((Licitacao) licitacao)){
+        if(licitacao instanceof Licitacao && !verifyIfExists((Licitacao) licitacao)){
             licitacoes.add((Licitacao) licitacao);
             return true;
         }

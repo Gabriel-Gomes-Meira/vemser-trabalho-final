@@ -12,7 +12,7 @@ public class Main {
         CompradorController compradorController = new CompradorController();
 
         compradorController.create(new Comprador("2184568569", "leandro", "leandrodeAsis@gmail.com", "08956745398", 1));
-        usuarioController.create(new Usuario("root", "root@email.com", "0000"));
+        usuarioController.create(new Usuario("root", "root@gmail.com", "0000"));
         licitacaoController.create(new Licitacao("Moto Honda", "114/23", 3200));
         leilaoController.create(new Leilao(licitacaoController.getLicitacoes().get(0),
                 Date.valueOf(LocalDate.of(2024, 5, 23)),
@@ -21,19 +21,19 @@ public class Main {
 
         if (login(usuarioController)){
             do {
-                String opcao = paginaPrincipal(licitacaoController);
+                String opcao = mainMenu(licitacaoController);
                 switch (opcao) {
                     case "1":
-                        crudSemDependencia(usuarioController);
+                        actionMainMenu(usuarioController);
                         continue;
                     case "2":
-                        crudSemDependencia(licitacaoController);
+                        actionMainMenu(licitacaoController);
                         continue;
                     case "3":
-                        crudLeiloes(leilaoController, licitacaoController, compradorController);
+                        menuActionsListAuctions(leilaoController, licitacaoController, compradorController);
                         continue;
                     case "4":
-                        crudSemDependencia(compradorController);
+                        actionMainMenu(compradorController);
                         continue;
                     default:
                         System.exit(0);
@@ -42,7 +42,7 @@ public class Main {
         }
     }
 
-    public static String paginaPrincipal(LicitacaoController licitacaoController) {
+    public static String mainMenu(LicitacaoController licitacaoController) {
         System.out.println("\n" +
                 "#################################################################\n" +
                 "##\t1 - Usuarios\t\t\t\t\t\t\t\t\t\t\t#####\n" +
@@ -55,7 +55,7 @@ public class Main {
         return inputScanner.nextLine();
     }
 
-    public static void crudSemDependencia(Controller controller){
+    public static void actionMainMenu(Controller controller){
         boolean sair = false;
         do {
             String opcao = controller.showOptions();
@@ -78,7 +78,7 @@ public class Main {
         } while (!sair);
     }
 
-    public static void crudLeiloes(LeilaoController leilaoController, LicitacaoController licitacaoController, CompradorController compradorController){
+    public static void menuActionsListAuctions(LeilaoController leilaoController, LicitacaoController licitacaoController, CompradorController compradorController){
         boolean sair = false;
         do {
             String opcao = leilaoController.showOptions();

@@ -10,6 +10,9 @@ public class LeilaoController extends Controller {
         this.leiloes = new ArrayList<>();
     }
 
+    public void setLeiloes(ArrayList<Leilao> leiloes) {
+        this.leiloes = leiloes;
+    }
 
     public ArrayList<Leilao> getLeiloes() {
         return leiloes;

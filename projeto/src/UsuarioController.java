@@ -10,6 +10,10 @@ public class UsuarioController extends Controller {
         this.usuarios = new ArrayList<>();
     }
 
+    public void setUsuarios(ArrayList<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
     public boolean findAndAuth(String args[]){
         for (int i = 0; i < usuarios.size(); i++) {
             if (usuarios.get(i).autenticar(args[0], args[1])) {
@@ -20,7 +24,7 @@ public class UsuarioController extends Controller {
         return false;
     }
 
-    private boolean userExists(Usuario usuario){
+    private boolean verifyIfExists(Usuario usuario){
         for (int i = 0; i < usuarios.size(); i++) {
             if(Objects.equals(usuarios.get(i).getEmail(), usuario.getEmail())){
                 return true;
@@ -36,7 +40,7 @@ public class UsuarioController extends Controller {
 
     @Override
     public boolean create(Object usuario) {
-        if(usuario instanceof Usuario && !userExists((Usuario) usuario)){
+        if(usuario instanceof Usuario && !verifyIfExists((Usuario) usuario)){
         usuarios.add((Usuario) usuario);
         return true;
         }
